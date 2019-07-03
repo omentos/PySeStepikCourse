@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 
 
 def pytest_addoption(parser):
@@ -21,11 +22,12 @@ def browser(request):
         browser = webdriver.Chrome(options=options)
     elif browser_name == "firefox":
         print("\nstart firefox browser for test..")
-        fp = webdriver.FirefoxProfile()
+        fp = FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
         browser = webdriver.Firefox(firefox_profile=fp)
     else:
         print(F"Browser {browser_name} still is not implemented")
+    browser.implicitly_wait(4)
     yield browser
     print("\nquit browser..")
     browser.quit()
